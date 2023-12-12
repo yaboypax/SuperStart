@@ -90,7 +90,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
 	HDC hdc;
-	//TCHAR greeting[] = _T("Hello, Windows desktop!");
 
 	switch (message)
 	{
