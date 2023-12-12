@@ -59,7 +59,7 @@ int WINAPI WinMain(
 		szTitle,
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		500, 500,
+		500, 200,
 		NULL,
 		NULL,
 		hInstance,
@@ -97,10 +97,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		inputCombo = CreateWindowA("COMBOBOX", NULL, WS_VISIBLE | WS_CHILD | CBS_DROPDOWN | CBS_HASSTRINGS, 
-									20, 0, 300, inputOptions.size() * 30, hWnd, (HMENU)1000, hInst, NULL);
+									20, 10, 300, inputOptions.size() * 30, hWnd, (HMENU)1000, hInst, NULL);
 
 		outputCombo = CreateWindowA("COMBOBOX", NULL, WS_VISIBLE | WS_CHILD | CBS_DROPDOWN | CBS_HASSTRINGS,
-									20, 50, 300, outputOptions.size() * 30, hWnd, (HMENU)1001, hInst, NULL);
+									20, 60, 300, outputOptions.size() * 30, hWnd, (HMENU)1001, hInst, NULL);
 
 		if (inputCombo == NULL || outputCombo == NULL)
 		{
@@ -117,10 +117,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 		CreateWindowA( "BUTTON", "Launch!", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-						350, 0, 100, 30, hWnd, (HMENU)1002, hInst, NULL);
+						350, 10, 100, 30, hWnd, (HMENU)1002, hInst, NULL);
 
 		CreateWindowA("BUTTON", "Kill!", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-						350, 50, 100, 30, hWnd, (HMENU)1003, hInst, NULL);
+						350, 60, 100, 30, hWnd, (HMENU)1003, hInst, NULL);
 
 		ioManager.read();
 
