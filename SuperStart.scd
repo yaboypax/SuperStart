@@ -1,6 +1,6 @@
 Server.default.waitForBoot ({
-	Server.default.options.inDevice = "Windows DirectSound : Primary Sound Capture Driver";
-	Server.default.options.outDevice = "Windows DirectSound : Speakers (Synaptics SmartAudio HD)";
+	Server.default.options.inDevice = "ASIO : Focusrite USB ASIO";
+	Server.default.options.outDevice = "ASIO : Focusrite USB ASIO";
     s.options.memSize = 14512 * 128;
     s.reboot;
     s.sync;

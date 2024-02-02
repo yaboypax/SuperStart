@@ -1,6 +1,10 @@
 #include <windows.h>
 #include <tchar.h>
 #include <stdlib.h>
+
+#include <Mmdeviceapi.h>
+#include <Functiondiscoverykeys_devpkey.h>
+
 #include "IO.h"
 #include "resource.h"
 
@@ -97,6 +101,56 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
+		IMMDeviceEnumerator* pEnumerator = NULL;
+		const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
+		const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
+
+		HRESULT hr = CoInitialize(NULL);
+		if (FAILED(hr)) {
+			// Handle error
+		}
+
+		
+		hr = CoCreateInstance(
+			CLSID_MMDeviceEnumerator, NULL,
+			CLSCTX_ALL, IID_IMMDeviceEnumerator,
+			(void**)&pEnumerator);
+
+		if (FAILED(hr)) {
+			// Handle error
+		}
+
+		IMMDeviceCollection* pCollection = NULL;
+		hr = pEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &pCollection);
+		if (FAILED(hr)) {
+			// Handle error
+		}
+
+		UINT count;
+		pCollection->GetCount(&count);
+		std::vector<std::wstring> deviceNames;
+		for (UINT i = 0; i < count; ++i) {
+			IMMDevice* pDevice = NULL;
+			hr = pCollection->Item(i, &pDevice);
+			if (SUCCEEDED(hr)) {
+				IPropertyStore* pProps = NULL;
+				hr = pDevice->OpenPropertyStore(STGM_READ, &pProps);
+				if (SUCCEEDED(hr)) {
+					PROPVARIANT varName;
+					PropVariantInit(&varName);
+					hr = pProps->GetValue(PKEY_Device_FriendlyName, &varName);
+					if (SUCCEEDED(hr)) {
+						deviceNames.push_back(varName.pwszVal);
+						PropVariantClear(&varName);
+					}
+					pProps->Release();
+				}
+				pDevice->Release();
+			}
+		}
+		pCollection->Release();
+		pEnumerator->Release();
+		CoUninitialize();
 
 		inputCombo = CreateWindowA("COMBOBOX", NULL, WS_VISIBLE | WS_CHILD | CBS_DROPDOWN | CBS_HASSTRINGS, 
 									20, 10, 300, inputOptions.size() * 30, hWnd, (HMENU)1000, hInst, NULL);
