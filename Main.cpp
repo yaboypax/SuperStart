@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include <Mmdeviceapi.h>
+#include <Endpointvolume.h>
 #include <Functiondiscoverykeys_devpkey.h>
 
 #include "IO.h"
@@ -94,9 +95,6 @@ int WINAPI WinMain(
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT ps;
-	HDC hdc;
-
 	switch (message)
 	{
 	case WM_CREATE:
@@ -104,6 +102,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		IMMDeviceEnumerator* pEnumerator = NULL;
 		const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
 		const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
+		const IID IID_IMMEndpoint = __uuidof(IMMEndpoint);
 
 		HRESULT hr = CoInitialize(NULL);
 		if (FAILED(hr)) {
@@ -121,18 +120,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 
 		IMMDeviceCollection* pCollection = NULL;
-		hr = pEnumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &pCollection);
+		hr = pEnumerator->EnumAudioEndpoints(eAll, DEVICE_STATE_ACTIVE, &pCollection);
 		if (FAILED(hr)) {
 			// Handle error
 		}
 
 		UINT count;
 		pCollection->GetCount(&count);
-		std::vector<std::wstring> deviceNames;
+		std::wstring deviceName;
+
 		for (UINT i = 0; i < count; ++i) {
 			IMMDevice* pDevice = NULL;
 			hr = pCollection->Item(i, &pDevice);
 			if (SUCCEEDED(hr)) {
+
 				IPropertyStore* pProps = NULL;
 				hr = pDevice->OpenPropertyStore(STGM_READ, &pProps);
 				if (SUCCEEDED(hr)) {
@@ -140,13 +141,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					PropVariantInit(&varName);
 					hr = pProps->GetValue(PKEY_Device_FriendlyName, &varName);
 					if (SUCCEEDED(hr)) {
-						deviceNames.push_back(varName.pwszVal);
+						deviceName = varName.pwszVal;
 						PropVariantClear(&varName);
 					}
 					pProps->Release();
 				}
-				pDevice->Release();
+
+
+				IMMEndpoint* pEndpoint = NULL;
+				hr = pDevice->QueryInterface(IID_IMMEndpoint, (void**)&pEndpoint);
+				if (SUCCEEDED(hr)) {
+					EDataFlow dataFlow;
+					pEndpoint->GetDataFlow(&dataFlow);
+
+					if (dataFlow == eRender) {
+						std::string narrowString(deviceName.begin(), deviceName.end());
+						outputOptions.push_back(narrowString);
+					}
+					else if (dataFlow == eCapture) {
+						std::string narrowString(deviceName.begin(), deviceName.end());
+						inputOptions.push_back(narrowString);
+					}
+
+					pEndpoint->Release();
+
+				}
+				
 			}
+			pDevice->Release();
 		}
 		pCollection->Release();
 		pEnumerator->Release();
@@ -157,6 +179,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		outputCombo = CreateWindowA("COMBOBOX", NULL, WS_VISIBLE | WS_CHILD | CBS_DROPDOWN | CBS_HASSTRINGS,
 									20, 60, 300, outputOptions.size() * 30, hWnd, (HMENU)1001, hInst, NULL);
+
 
 		if (inputCombo == NULL || outputCombo == NULL)
 		{

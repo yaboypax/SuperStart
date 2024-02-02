@@ -5,35 +5,37 @@
 #include <iostream>
 #include <algorithm>
 
-std::vector<std::string> inputOptions{
-    "MME : Microsoft Sound Mapper - Input",
-    "MME : CABLE Output (VB-Audio Virtual",
-    "MME : Microphone Array (Synaptics Sma",
-    "Windows DirectSound : Primary Sound Capture Driver",
-    "Windows DirectSound : CABLE Output (VB-Audio Virtual Cable)",
-    "Windows DirectSound : Microphone Array (Synaptics SmartAudio HD)",
-    "ASIO : ASIO4ALL v2",
-    "ASIO : FL Studio ASIO",
-    "ASIO : Generic Low Latency ASIO Driver",
-    "ASIO : Focusrite USB ASIO"
-};
-
-std::vector<std::string> outputOptions{
-    "MME : Microsoft Sound Mapper - Output",
-    "MME : CABLE Output (VB-Audio Virtual",
-    "MME : Microphone Array (Synaptics Sma",
-    "MME : Speakers (Synaptics SmartAudio",
-    "MME : CABLE Input (VB-Audio Virtual C",
-    "MME : 2 - SHARP HDMI (AMD High Defini",
-    "Windows DirectSound : Primary Sound Driver",
-    "Windows DirectSound : Speakers (Synaptics SmartAudio HD)",
-    "Windows DirectSound : CABLE Input (VB-Audio Virtual Cable",
-    "Windows DirectSound : 2 - SHARP HDMI (AMD High Definition Audio Device)",
-    "ASIO : ASIO4ALL v2",
-    "ASIO : FL Studio ASIO",
-    "ASIO : Generic Low Latency ASIO Driver",
-    "ASIO : Focusrite USB ASIO"
-};
+//std::vector<std::string> inputOptions{
+//    "MME : Microsoft Sound Mapper - Input",
+//    "MME : CABLE Output (VB-Audio Virtual",
+//    "MME : Microphone Array (Synaptics Sma",
+//    "Windows DirectSound : Primary Sound Capture Driver",
+//    "Windows DirectSound : CABLE Output (VB-Audio Virtual Cable)",
+//    "Windows DirectSound : Microphone Array (Synaptics SmartAudio HD)",
+//    "ASIO : ASIO4ALL v2",
+//    "ASIO : FL Studio ASIO",
+//    "ASIO : Generic Low Latency ASIO Driver",
+//    "ASIO : Focusrite USB ASIO"
+//};
+//
+//std::vector<std::string> outputOptions{
+//    "MME : Microsoft Sound Mapper - Output",
+//    "MME : CABLE Output (VB-Audio Virtual",
+//    "MME : Microphone Array (Synaptics Sma",
+//    "MME : Speakers (Synaptics SmartAudio",
+//    "MME : CABLE Input (VB-Audio Virtual C",
+//    "MME : 2 - SHARP HDMI (AMD High Defini",
+//    "Windows DirectSound : Primary Sound Driver",
+//    "Windows DirectSound : Speakers (Synaptics SmartAudio HD)",
+//    "Windows DirectSound : CABLE Input (VB-Audio Virtual Cable",
+//    "Windows DirectSound : 2 - SHARP HDMI (AMD High Definition Audio Device)",
+//    "ASIO : ASIO4ALL v2",
+//    "ASIO : FL Studio ASIO",
+//    "ASIO : Generic Low Latency ASIO Driver",
+//    "ASIO : Focusrite USB ASIO"
+//};
+std::vector<std::string> inputOptions;
+std::vector<std::string> outputOptions;
 
 class IOManager
 {
