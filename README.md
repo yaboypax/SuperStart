@@ -1,4 +1,4 @@
-# SuperStart:  Start Supercollider without Supercollider IDE
+# SuperStart:  Bash Start Supercollider without Supercollider IDE
 
 This started as a command line application in C, then a C++ GUI app, but I realized I was an idiot and this is prime Bash Script territory. 
 
