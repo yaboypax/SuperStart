@@ -1,4 +1,5 @@
-# SuperStart:  Bash Start Supercollider without Supercollider IDE
+# SuperStart
+## Initialize SuperCollider and SuperDirt for use with TidalCycles from Bash
 
 This started as a command line application in C, then a C++ GUI app, but I realized I was an idiot and this is prime Bash Script territory. 
 
