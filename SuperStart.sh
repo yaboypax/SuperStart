@@ -8,6 +8,7 @@
 echo -e "Super Start \n"
 
 # read input/output selections
+
 echo "( ServerOptions.inDevices.postln; 0.exit; )" | sclang | grep -A 1 "( ServerOptions.inDevices.postln; 0.exit; )"
 echo -e "\n\n"
 read -p "Input Device: " inputDevice
@@ -17,6 +18,9 @@ echo "( ServerOptions.outDevices.postln; 0.exit; )" | sclang | grep -A 1 "( Serv
 echo -e "\n\n"
 read -p "Output Device: " outputDevice
 echo -e "\n"
+
+# if nonempty, replace device with input string in SuperStart.scd and ship to sclang
+# blank entries run sclang with last device written to SuperStart.scd
 
 if [ -n "$inputDevice" ]; then
 	sed -i "s/Server\.default\.options\.inDevice_(\".*\");/Server.default.options.inDevice_(\"$inputDevice\");/" SuperStart.scd
