@@ -2,11 +2,11 @@
 
 echo -e "Super Start \n"
 
-echo "( ServerOptions.inDevices.postln; 0.exit; )" | sclang | grep -A 4 "( ServerOptions.inDevices.postln; 0.exit; )"
+echo "( ServerOptions.inDevices.postln; 0.exit; )" | sclang | grep -A 1 "( ServerOptions.inDevices.postln; 0.exit; )"
 echo -e "\n\n"
 read -p "Input Device: " inputDevice
 
-echo "( ServerOptions.outDevices.postln; 0.exit; )" | sclang | grep -A 4 "( ServerOptions.outDevices.postln; 0.exit; )"
+echo "( ServerOptions.outDevices.postln; 0.exit; )" | sclang | grep -A 1 "( ServerOptions.outDevices.postln; 0.exit; )"
 echo -e "\n\n"
 read -p "Output Device: " outputDevice
 
