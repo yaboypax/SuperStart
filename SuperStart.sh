@@ -7,6 +7,7 @@
 
 echo -e "Super Start \n"
 
+# read input/output selections
 echo "( ServerOptions.inDevices.postln; 0.exit; )" | sclang | grep -A 1 "( ServerOptions.inDevices.postln; 0.exit; )"
 echo -e "\n\n"
 read -p "Input Device: " inputDevice
@@ -17,7 +18,12 @@ echo -e "\n\n"
 read -p "Output Device: " outputDevice
 echo -e "\n"
 
-sed -i "s/Server\.default\.options\.inDevice_(\".*\");/Server.default.options.inDevice_(\"$inputDevice\");/" SuperStart.scd
-sed -i "s/Server\.default\.options\.outDevice_(\".*\");/Server.default.options.outDevice_(\"$outputDevice\");/" SuperStart.scd
+if [ -n "$inputDevice" ]; then
+	sed -i "s/Server\.default\.options\.inDevice_(\".*\");/Server.default.options.inDevice_(\"$inputDevice\");/" SuperStart.scd
+fi
+
+if [ -n "$outputDevice" ]; then
+	sed -i "s/Server\.default\.options\.outDevice_(\".*\");/Server.default.options.outDevice_(\"$outputDevice\");/" SuperStart.scd
+fi
 
 sclang SuperStart.scd
